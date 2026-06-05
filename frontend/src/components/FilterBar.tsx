@@ -58,7 +58,7 @@ export default function FilterBar({ filters, techStacks, onChange, onShuffle }: 
         Clear
       </button>
       <button type="button" className="btn-ghost" onClick={onShuffle}>
-        &#x1F500; Shuffle
+        Shuffle
       </button>
     </form>
   );

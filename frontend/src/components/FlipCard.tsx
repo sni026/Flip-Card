@@ -24,7 +24,7 @@ export default function FlipCard({ card, onEdit, onDelete }: Props) {
         <div className="fc-hint">Tap to reveal answer</div>
       </div>
       <div className="fc-face fc-back">
-        <div className="fc-answer" style={{ whiteSpace: 'pre-wrap' }}>{card.answer}</div>
+        <div className="fc-answer" style={{ whiteSpace: 'pre-wrap' }} onClick={e => e.stopPropagation()}>{card.answer}</div>
         <div className="fc-hint">Tap to see question</div>
       </div>
     </div>

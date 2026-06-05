@@ -4,8 +4,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(o =>
-    o.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+var rawConnection = builder.Configuration.GetConnectionString("DefaultConnection")!;
+// Anchor relative SQLite paths to the project directory so the DB file is
+// always in the same place regardless of where `dotnet run` is invoked from.
+var dbPath = rawConnection.Replace("Data Source=", "").Trim();
+var connectionString = Path.IsPathRooted(dbPath)
+    ? rawConnection
+    : $"Data Source={Path.Combine(builder.Environment.ContentRootPath, dbPath)}";
+builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlite(connectionString));
 
 builder.Services.AddCors(o => o.AddPolicy("React", p =>
     p.WithOrigins("http://localhost:5173")

@@ -70,10 +70,6 @@ export default function App() {
 
   return (
     <>
-      <nav className="fc-nav">
-        <span className="fc-nav-brand">&#x1F0A0; How hard can it be</span>
-      </nav>
-
       <main className="fc-main">
         <div className="fc-header">
           <h1 className="fc-title">Flip Cards</h1>
