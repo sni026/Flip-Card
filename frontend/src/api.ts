@@ -14,6 +14,8 @@ export async function fetchCards(filters: Partial<Filters> = {}): Promise<Card[]
   if (filters.techStack)   params.set('techStack', filters.techStack);
   if (filters.technical)   params.set('technical', 'true');
   if (filters.behavioural) params.set('behavioural', 'true');
+  if (filters.foundation)  params.set('foundation', 'true');
+  if (filters.advanced)    params.set('advanced', 'true');
   return json(await fetch(`${BASE}/cards?${params}`));
 }
 

@@ -191,7 +191,9 @@ body {
 }
 
 .tag-technical   { background: #dbeafe; color: #1d4ed8; }
+
 .tag-behavioural { background: #fef3c7; color: #92400e; }
+.tag-foundation  { background: #ede9fe; color: #5b21b6; }
 .tag-stack       { background: #d1fae5; color: #065f46; }
 
 /* ── Card content ── */

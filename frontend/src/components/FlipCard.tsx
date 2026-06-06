@@ -17,6 +17,7 @@ export default function FlipCard({ card, onEdit, onDelete }: Props) {
         <div className="fc-tags">
           {card.technical  && <span className="tag tag-technical">Technical</span>}
           {card.behavioural && <span className="tag tag-behavioural">Behavioural</span>}
+          {card.foundation   && <span className="tag tag-foundation">Foundation</span>}
           {card.techStack   && <span className="tag tag-stack">{card.techStack}</span>}
           <CardMenu card={card} onEdit={onEdit} onDelete={onDelete} />
         </div>

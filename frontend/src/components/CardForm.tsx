@@ -7,7 +7,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const empty: CardInput = { question: '', answer: '', technical: false, behavioural: false, techStack: '' };
+const empty: CardInput = { question: '', answer: '', technical: false, behavioural: false, foundation: false, techStack: '' };
 
 export default function CardForm({ initial, onSave, onCancel }: Props) {
   const [form, setForm] = useState<CardInput>(initial ?? empty);
@@ -78,6 +78,10 @@ export default function CardForm({ initial, onSave, onCancel }: Props) {
             <label className="fc-checkbox-label">
               <input type="checkbox" checked={form.behavioural} onChange={e => set({ behavioural: e.target.checked })} />
               <span>Behavioural</span>
+            </label>
+            <label className="fc-checkbox-label">
+              <input type="checkbox" checked={form.foundation} onChange={e => set({ foundation: e.target.checked })} />
+              <span>Foundation</span>
             </label>
           </div>
 

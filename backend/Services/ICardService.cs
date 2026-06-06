@@ -1,0 +1,20 @@
+using FlipCardApi.Models;
+
+namespace FlipCardApi.Services;
+
+public interface ICardService
+{
+    Task<List<Card>> GetFilteredAsync(
+        string? search,
+        string? techStack,
+        bool? technical,
+        bool? behavioural,
+        bool? foundation,
+        bool? advanced);
+
+    Task<List<string>> GetTechStacksAsync();
+    Task<Card?> GetByIdAsync(int id);
+    Task<Card> CreateAsync(Card card);
+    Task<Card> UpdateAsync(Card card);
+    Task DeleteAsync(int id);
+}

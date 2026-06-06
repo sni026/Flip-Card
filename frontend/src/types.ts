@@ -4,6 +4,7 @@ export interface Card {
   answer: string;
   technical: boolean;
   behavioural: boolean;
+  foundation: boolean;
   techStack: string;
 }
 
@@ -14,4 +15,6 @@ export interface Filters {
   techStack: string;
   technical: boolean;
   behavioural: boolean;
+  foundation: boolean;
+  advanced: boolean;
 }

@@ -16,5 +16,7 @@ public class Card
 
     public bool Behavioural { get; set; }
 
+    public bool Foundation {get; set; }
+
     public string TechStack { get; set; } = string.Empty;
 }
