@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlipCardApi.Controllers;
 
 [ApiController]
+//[Route("api/[controller]")] -> Base route for all actions in this controller (e.g., api/cards)
 [Route("api/[controller]")]
 public class CardsController(ICardService service) : ControllerBase
 {
@@ -15,9 +16,10 @@ public class CardsController(ICardService service) : ControllerBase
         [FromQuery] bool? technical,
         [FromQuery] bool? behavioural,
         [FromQuery] bool? foundation,
-        [FromQuery] bool? advanced)
+        [FromQuery] bool? advanced,
+        [FromQuery] bool? starred)
     {
-        var cards = await service.GetFilteredAsync(search, techStack, technical, behavioural, foundation, advanced);
+        var cards = await service.GetFilteredAsync(search, techStack, technical, behavioural, foundation, advanced, starred);
         return Ok(cards);
     }
 
@@ -54,6 +56,20 @@ public class CardsController(ICardService service) : ControllerBase
         return Ok(updatedCard);
     }
 
+    [HttpPatch("{id}/star")]
+    public async Task<IActionResult> SetStarred(int id, StarCardRequest request)
+    {
+        try
+        {
+            var card = await service.SetStarredAsync(id, request.Starred);
+            return Ok(card);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -67,4 +83,6 @@ public class CardsController(ICardService service) : ControllerBase
             return NotFound();
         }
     }
+
+    public record StarCardRequest(bool Starred);
 }

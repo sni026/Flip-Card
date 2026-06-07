@@ -67,11 +67,20 @@ export default function FilterBar({ filters, techStacks, onChange, onShuffle }: 
         Advanced
       </label>
 
+      <label className="fc-checkbox-label">
+        <input
+          type="checkbox"
+          checked={filters.starred}
+          onChange={e => set({ starred: e.target.checked })}
+        />
+        Starred
+      </label>
+
       <span className="fc-divider" />
       <button
         type="button"
         className="btn-ghost"
-        onClick={() => onChange({ search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false })}
+        onClick={() => onChange({ search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false, starred: false })}
       >
         Clear
       </button>

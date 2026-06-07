@@ -4,15 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlipCardApi.Repositories;
 
-public class CardRepository : ICardRepository
+public class CardRepository(AppDbContext db) : ICardRepository
 {
-    private readonly AppDbContext db;
-
-    public CardRepository(AppDbContext db)
-    {
-        this.db = db;
-    }
-
     public Task<List<Card>> GetAllAsync() =>
         db.Cards.OrderBy(c => c.Id).ToListAsync();
 

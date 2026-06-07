@@ -4,21 +4,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace FlipCardApi.Services;
 
-public class CardService : ICardService
+public class CardService(ICardRepository repository, IMemoryCache cache) : ICardService
 {
     private const string CardsKey = "all_cards";
     private const string StacksKey = "all_stacks";
     private static readonly MemoryCacheEntryOptions CacheOptions =
         new() { SlidingExpiration = TimeSpan.FromMinutes(10) };
-
-    private readonly ICardRepository repository;
-    private readonly IMemoryCache cache;
-
-    public CardService(ICardRepository repository, IMemoryCache cache)
-    {
-        this.repository = repository;
-        this.cache = cache;
-    }
 
     private Task<List<Card>> GetCachedCardsAsync() =>
         cache.GetOrCreateAsync<List<Card>>(CardsKey, entry =>
@@ -47,7 +38,8 @@ public class CardService : ICardService
         bool? technical,
         bool? behavioural,
         bool? foundation,
-        bool? advanced)
+        bool? advanced,
+        bool? starred)
     {
         var cards = (await GetCachedCardsAsync()).AsEnumerable();
 
@@ -62,6 +54,7 @@ public class CardService : ICardService
         if (behavioural == true) cards = cards.Where(c => c.Behavioural);
         if (foundation == true)  cards = cards.Where(c => c.Foundation);
         if (advanced == true)    cards = cards.Where(c => !c.Foundation);
+        if (starred == true)     cards = cards.Where(c => c.Starred);
 
         return cards.ToList();
     }
@@ -102,6 +95,24 @@ public class CardService : ICardService
         var index = cards.FindIndex(c => c.Id == card.Id);
         if (index >= 0)
             cards[index] = card;
+
+        SetCache(cards);
+        return card;
+    }
+
+    public async Task<Card> SetStarredAsync(int id, bool starred)
+    {
+        var card = await repository.GetByIdAsync(id);
+        if (card is null)
+            throw new KeyNotFoundException();
+
+        card.Starred = starred;
+        await repository.SaveChangesAsync();
+
+        var cards = await GetCachedCardsAsync();
+        var cachedCard = cards.FirstOrDefault(c => c.Id == id);
+        if (cachedCard is not null)
+            cachedCard.Starred = starred;
 
         SetCache(cards);
         return card;

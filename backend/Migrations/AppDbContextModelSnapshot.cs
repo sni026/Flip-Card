@@ -36,6 +36,9 @@ namespace FlipCardApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Starred")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TechStack")
                         .IsRequired()
                         .HasColumnType("TEXT");

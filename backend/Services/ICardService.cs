@@ -10,11 +10,13 @@ public interface ICardService
         bool? technical,
         bool? behavioural,
         bool? foundation,
-        bool? advanced);
-
+        bool? advanced,
+        bool? starred
+    );
     Task<List<string>> GetTechStacksAsync();
     Task<Card?> GetByIdAsync(int id);
     Task<Card> CreateAsync(Card card);
     Task<Card> UpdateAsync(Card card);
+    Task<Card> SetStarredAsync(int id, bool starred);
     Task DeleteAsync(int id);
 }

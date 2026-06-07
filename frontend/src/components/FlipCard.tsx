@@ -6,9 +6,10 @@ interface Props {
   card: Card;
   onEdit: (card: Card) => void;
   onDelete: (id: number) => void;
+  onStar: (card: Card) => void;
 }
 
-export default function FlipCard({ card, onEdit, onDelete }: Props) {
+export default function FlipCard({ card, onEdit, onDelete, onStar }: Props) {
   const [flipped, setFlipped] = useState(false);
 
   return (
@@ -22,6 +23,15 @@ export default function FlipCard({ card, onEdit, onDelete }: Props) {
           <CardMenu card={card} onEdit={onEdit} onDelete={onDelete} />
         </div>
         <div className="fc-question" style={{ whiteSpace: 'pre-wrap' }}>{card.question}</div>
+        <button
+          type="button"
+          className={`fc-star${card.starred ? ' starred' : ''}`}
+          aria-label={card.starred ? 'Remove from important cards' : 'Mark as important'}
+          aria-pressed={card.starred}
+          onClick={e => { e.stopPropagation(); onStar(card); }}
+        >
+          {card.starred ? '★' : '☆'}
+        </button>
         <div className="fc-hint">Tap to reveal answer</div>
       </div>
       <div className="fc-face fc-back">

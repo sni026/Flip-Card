@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { createCard, deleteCard, fetchCards, fetchTechStacks, updateCard } from './api';
+import { createCard, deleteCard, fetchCards, fetchTechStacks, setCardStarred, updateCard } from './api';
 import CardForm from './components/CardForm';
 import FilterBar from './components/FilterBar';
 import FlipCard from './components/FlipCard';
 import type { Card, CardInput, Filters } from './types';
 
-const defaultFilters: Filters = { search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false };
+const defaultFilters: Filters = { search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false, starred: false };
 
 export default function App() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -68,6 +68,11 @@ export default function App() {
     setOrder(o => o.filter(x => x !== id));
   };
 
+  const handleStar = async (card: Card) => {
+    const updated = await setCardStarred(card.id, !card.starred);
+    setCards(cs => cs.map(c => c.id === updated.id ? updated : c));
+  };
+
   return (
     <>
       <main className="fc-main">
@@ -97,6 +102,7 @@ export default function App() {
                   card={card}
                   onEdit={c => setEditing(c)}
                   onDelete={handleDelete}
+                  onStar={handleStar}
                 />
               ))}
             </div>

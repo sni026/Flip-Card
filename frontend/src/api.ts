@@ -16,6 +16,7 @@ export async function fetchCards(filters: Partial<Filters> = {}): Promise<Card[]
   if (filters.behavioural) params.set('behavioural', 'true');
   if (filters.foundation)  params.set('foundation', 'true');
   if (filters.advanced)    params.set('advanced', 'true');
+  if (filters.starred)     params.set('starred', 'true');
   return json(await fetch(`${BASE}/cards?${params}`));
 }
 
@@ -36,6 +37,14 @@ export async function updateCard(card: Card): Promise<Card> {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(card),
+  }));
+}
+
+export async function setCardStarred(id: number, starred: boolean): Promise<Card> {
+  return json(await fetch(`${BASE}/cards/${id}/star`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ starred }),
   }));
 }
 

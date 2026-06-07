@@ -7,7 +7,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const empty: CardInput = { question: '', answer: '', technical: false, behavioural: false, foundation: false, techStack: '' };
+const empty: CardInput = { question: '', answer: '', technical: false, behavioural: false, foundation: false, starred: false, techStack: '' };
 
 export default function CardForm({ initial, onSave, onCancel }: Props) {
   const [form, setForm] = useState<CardInput>(initial ?? empty);
