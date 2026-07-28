@@ -38,9 +38,9 @@ body {
 /* ── Main ── */
 .fc-main {
     flex: 1;
-    max-width: 1160px;
-    width: 100%;
-    margin: 0 auto;
+    max-width: none;
+    width: auto;
+    margin: 0 80px;
     padding: 2rem 1.5rem 3rem;
 }
 
@@ -51,6 +51,35 @@ body {
     justify-content: space-between;
     margin-bottom: 1.25rem;
 }
+
+.fc-header-actions {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.fc-view-toggle {
+    display: flex;
+    padding: 3px;
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+}
+
+.fc-view-btn {
+    height: 29px;
+    padding: 0 .7rem;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    font: 600 .78rem inherit;
+    cursor: pointer;
+}
+
+.fc-view-btn:hover { color: var(--text); }
+.fc-view-btn.active { background: var(--primary-lt); color: var(--primary); }
 
 .fc-title {
     font-size: 1.6rem;
@@ -117,6 +146,12 @@ body {
     background: var(--border);
 }
 
+.fc-filters > .btn-ghost {
+    width: 76px;
+    justify-content: center;
+    padding: 0;
+}
+
 .fc-count {
     color: var(--muted);
     font-size: .82rem;
@@ -129,6 +164,56 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 1.5rem;
 }
+
+/* ── List view ── */
+.fc-list {
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.fc-list-header,
+.fc-list-row {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.2fr) minmax(220px, 1.5fr) minmax(150px, .8fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: .85rem 1.1rem;
+}
+
+.fc-list-header {
+    background: var(--bg);
+    color: var(--muted);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.fc-list-row { border-top: 1px solid var(--border); min-height: 92px; }
+.fc-list-row:hover { background: #fafaff; }
+.fc-list-question strong,
+.fc-list-answer > span:last-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    white-space: pre-wrap;
+}
+.fc-list-question strong { color: var(--text); font-size: .9rem; }
+.fc-list-answer > span:last-child { color: var(--text-soft); font-size: .85rem; }
+.fc-list-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+.fc-list-actions { display: flex; align-items: center; gap: .45rem; }
+.fc-list-edit, .fc-list-delete {
+    width: 62px;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    font-size: .8rem;
+}
+.fc-list-label { display: none; }
 
 /* ── Flip card ── */
 .fc-card {
@@ -189,8 +274,6 @@ body {
     letter-spacing: .4px;
     text-transform: uppercase;
 }
-
-.tag-technical   { background: #dbeafe; color: #1d4ed8; }
 
 .tag-behavioural { background: #fef3c7; color: #92400e; }
 .tag-foundation  { background: #ede9fe; color: #5b21b6; }
@@ -421,4 +504,15 @@ body {
     color: var(--muted);
     border-top: 1px solid var(--border);
     background: var(--surface);
+}
+
+@media (max-width: 760px) {
+    .fc-main { margin: 0; }
+    .fc-header { align-items: flex-start; gap: .75rem; }
+    .fc-header-actions { flex-direction: column-reverse; align-items: flex-end; gap: .45rem; }
+    .fc-list-header { display: none; }
+    .fc-list-row { display: flex; flex-direction: column; align-items: stretch; gap: .7rem; padding: 1rem; }
+    .fc-list-question, .fc-list-answer, .fc-list-tag-cell { display: flex; flex-direction: column; gap: .25rem; }
+    .fc-list-label { display: block; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; }
+    .fc-list-actions { justify-content: flex-end; }
 }

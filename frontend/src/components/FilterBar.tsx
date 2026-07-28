@@ -34,15 +34,6 @@ export default function FilterBar({ filters, techStacks, onChange, onShuffle }: 
       <label className="fc-checkbox-label">
         <input
           type="checkbox"
-          checked={filters.technical}
-          onChange={e => set({ technical: e.target.checked })}
-        />
-        Technical
-      </label>
-
-      <label className="fc-checkbox-label">
-        <input
-          type="checkbox"
           checked={filters.behavioural}
           onChange={e => set({ behavioural: e.target.checked })}
         />
@@ -80,7 +71,7 @@ export default function FilterBar({ filters, techStacks, onChange, onShuffle }: 
       <button
         type="button"
         className="btn-ghost"
-        onClick={() => onChange({ search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false, starred: false })}
+        onClick={() => onChange({ search: '', techStack: '', behavioural: false, foundation: false, advanced: false, starred: false })}
       >
         Clear
       </button>

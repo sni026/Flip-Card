@@ -12,8 +12,6 @@ public class Card
     [Required]
     public string Answer { get; set; } = string.Empty;
 
-    public bool Technical { get; set; }
-
     public bool Behavioural { get; set; }
 
     public bool Foundation {get; set; }

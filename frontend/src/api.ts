@@ -12,7 +12,6 @@ export async function fetchCards(filters: Partial<Filters> = {}): Promise<Card[]
   const params = new URLSearchParams();
   if (filters.search)      params.set('search', filters.search);
   if (filters.techStack)   params.set('techStack', filters.techStack);
-  if (filters.technical)   params.set('technical', 'true');
   if (filters.behavioural) params.set('behavioural', 'true');
   if (filters.foundation)  params.set('foundation', 'true');
   if (filters.advanced)    params.set('advanced', 'true');

@@ -35,7 +35,6 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
     public async Task<List<Card>> GetFilteredAsync(
         string? search,
         string? techStack,
-        bool? technical,
         bool? behavioural,
         bool? foundation,
         bool? advanced,
@@ -50,7 +49,6 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
         if (!string.IsNullOrWhiteSpace(techStack))
             cards = cards.Where(c => c.TechStack == techStack);
 
-        if (technical == true)   cards = cards.Where(c => c.Technical);
         if (behavioural == true) cards = cards.Where(c => c.Behavioural);
         if (foundation == true)  cards = cards.Where(c => c.Foundation);
         if (advanced == true)    cards = cards.Where(c => !c.Foundation);

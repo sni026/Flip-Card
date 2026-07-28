@@ -3,9 +3,10 @@ import { createCard, deleteCard, fetchCards, fetchTechStacks, setCardStarred, up
 import CardForm from './components/CardForm';
 import FilterBar from './components/FilterBar';
 import FlipCard from './components/FlipCard';
+import CardList from './components/CardList';
 import type { Card, CardInput, Filters } from './types';
 
-const defaultFilters: Filters = { search: '', techStack: '', technical: false, behavioural: false, foundation: false, advanced: false, starred: false };
+const defaultFilters: Filters = { search: '', techStack: '', behavioural: false, foundation: false, advanced: false, starred: false };
 
 export default function App() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -14,6 +15,7 @@ export default function App() {
   const [filters, setFilters] = useState<Filters>(defaultFilters);
   const [editing, setEditing] = useState<Card | null | 'new'>(null);
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState<'grid' | 'list'>('grid');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -78,7 +80,27 @@ export default function App() {
       <main className="fc-main">
         <div className="fc-header">
           <h1 className="fc-title">Flip Cards</h1>
-          <button className="btn-primary" onClick={() => setEditing('new')}>+ Add Card</button>
+          <div className="fc-header-actions">
+            <div className="fc-view-toggle" role="group" aria-label="Card view">
+              <button
+                type="button"
+                className={`fc-view-btn${view === 'grid' ? ' active' : ''}`}
+                aria-pressed={view === 'grid'}
+                onClick={() => setView('grid')}
+              >
+                Grid
+              </button>
+              <button
+                type="button"
+                className={`fc-view-btn${view === 'list' ? ' active' : ''}`}
+                aria-pressed={view === 'list'}
+                onClick={() => setView('list')}
+              >
+                List
+              </button>
+            </div>
+            <button className="btn-primary" onClick={() => setEditing('new')}>+ Add Card</button>
+          </div>
         </div>
 
         <FilterBar
@@ -94,18 +116,24 @@ export default function App() {
           <p className="fc-empty">No cards found.</p>
         ) : (
           <>
-            <p className="fc-count">{displayed.length} card(s) — click a card to flip it</p>
-            <div className="fc-grid">
-              {displayed.map(card => (
-                <FlipCard
-                  key={card.id}
-                  card={card}
-                  onEdit={c => setEditing(c)}
-                  onDelete={handleDelete}
-                  onStar={handleStar}
-                />
-              ))}
-            </div>
+            <p className="fc-count">
+              {displayed.length} card(s){view === 'grid' ? ' — click a card to flip it' : ' — select Edit to update a card'}
+            </p>
+            {view === 'grid' ? (
+              <div className="fc-grid">
+                {displayed.map(card => (
+                  <FlipCard
+                    key={card.id}
+                    card={card}
+                    onEdit={c => setEditing(c)}
+                    onDelete={handleDelete}
+                    onStar={handleStar}
+                  />
+                ))}
+              </div>
+            ) : (
+              <CardList cards={displayed} onEdit={setEditing} onDelete={handleDelete} />
+            )}
           </>
         )}
       </main>

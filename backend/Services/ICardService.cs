@@ -7,7 +7,6 @@ public interface ICardService
     Task<List<Card>> GetFilteredAsync(
         string? search,
         string? techStack,
-        bool? technical,
         bool? behavioural,
         bool? foundation,
         bool? advanced,

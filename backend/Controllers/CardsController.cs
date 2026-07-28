@@ -13,13 +13,12 @@ public class CardsController(ICardService service) : ControllerBase
     public async Task<IActionResult> GetAll(
         [FromQuery] string? search,
         [FromQuery] string? techStack,
-        [FromQuery] bool? technical,
         [FromQuery] bool? behavioural,
         [FromQuery] bool? foundation,
         [FromQuery] bool? advanced,
         [FromQuery] bool? starred)
     {
-        var cards = await service.GetFilteredAsync(search, techStack, technical, behavioural, foundation, advanced, starred);
+        var cards = await service.GetFilteredAsync(search, techStack, behavioural, foundation, advanced, starred);
         return Ok(cards);
     }
 
