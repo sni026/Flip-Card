@@ -1,4 +1,5 @@
 using FlipCardApi.Models;
+using FlipCardApi.DTOs;
 using FlipCardApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,9 +38,19 @@ public class CardsController(ICardService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Card card)
+    public async Task<IActionResult> Create([FromBody] CreateCardDTO dto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        var card = new Card
+        {
+            Question = dto.Question,
+            Answer = dto.Answer,
+            Behavioural = dto.Behavioural,
+            Foundation = dto.Foundation,
+            Starred = dto.Starred,
+            TechStack = dto.TechStack
+        };
 
         var createdCard = await service.CreateAsync(card);
         return CreatedAtAction(nameof(Get), new { id = createdCard.Id }, createdCard);

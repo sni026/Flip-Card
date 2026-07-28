@@ -1,10 +1,11 @@
+using FlipCardApi.Data;
 using FlipCardApi.Models;
-using FlipCardApi.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlipCardApi.Services;
 
-public class CardService(ICardRepository repository, IMemoryCache cache) : ICardService
+public class CardService(AppDbContext db, IMemoryCache cache) : ICardService
 {
     private const string CardsKey = "all_cards";
     private const string StacksKey = "all_stacks";
@@ -15,7 +16,7 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
         cache.GetOrCreateAsync<List<Card>>(CardsKey, entry =>
         {
             entry.SlidingExpiration = TimeSpan.FromMinutes(10);
-            return repository.GetAllAsync();
+            return db.Cards.OrderBy(c => c.Id).ToListAsync();
         })!;
 
     private void SetCache(List<Card> cards)
@@ -70,12 +71,12 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
         })!;
 
     public Task<Card?> GetByIdAsync(int id) =>
-        repository.GetByIdAsync(id);
+        db.Cards.FindAsync(id).AsTask();
 
     public async Task<Card> CreateAsync(Card card)
     {
-        await repository.AddAsync(card);
-        await repository.SaveChangesAsync();
+        db.Cards.Add(card);
+        await db.SaveChangesAsync();
 
         var cards = await GetCachedCardsAsync();
         cards.Add(card);
@@ -86,8 +87,8 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
 
     public async Task<Card> UpdateAsync(Card card)
     {
-        await repository.UpdateAsync(card);
-        await repository.SaveChangesAsync();
+        db.Cards.Update(card);
+        await db.SaveChangesAsync();
 
         var cards = await GetCachedCardsAsync();
         var index = cards.FindIndex(c => c.Id == card.Id);
@@ -100,12 +101,12 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
 
     public async Task<Card> SetStarredAsync(int id, bool starred)
     {
-        var card = await repository.GetByIdAsync(id);
+        var card = await db.Cards.FindAsync(id);
         if (card is null)
             throw new KeyNotFoundException();
 
         card.Starred = starred;
-        await repository.SaveChangesAsync();
+        await db.SaveChangesAsync();
 
         var cards = await GetCachedCardsAsync();
         var cachedCard = cards.FirstOrDefault(c => c.Id == id);
@@ -118,12 +119,12 @@ public class CardService(ICardRepository repository, IMemoryCache cache) : ICard
 
     public async Task DeleteAsync(int id)
     {
-        var card = await repository.GetByIdAsync(id);
+        var card = await db.Cards.FindAsync(id);
         if (card is null)
             throw new KeyNotFoundException();
 
-        await repository.DeleteAsync(card);
-        await repository.SaveChangesAsync();
+        db.Cards.Remove(card);
+        await db.SaveChangesAsync();
 
         var cards = await GetCachedCardsAsync();
         cards.RemoveAll(c => c.Id == id);

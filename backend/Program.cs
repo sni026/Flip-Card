@@ -1,5 +1,4 @@
 using FlipCardApi.Data;
-using FlipCardApi.Repositories;
 using FlipCardApi.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
-builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICardService, CardService>();
 var rawConnection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 // Anchor relative SQLite paths to the project directory so the DB file is
