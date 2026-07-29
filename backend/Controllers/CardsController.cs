@@ -16,10 +16,11 @@ public class CardsController(ICardService service) : ControllerBase
         [FromQuery] string? techStack,
         [FromQuery] bool? behavioural,
         [FromQuery] bool? foundation,
+        [FromQuery] bool? scenario,
         [FromQuery] bool? advanced,
         [FromQuery] bool? starred)
     {
-        var cards = await service.GetFilteredAsync(search, techStack, behavioural, foundation, advanced, starred);
+        var cards = await service.GetFilteredAsync(search, techStack, behavioural, foundation, scenario, advanced, starred);
         return Ok(cards);
     }
 
@@ -48,6 +49,7 @@ public class CardsController(ICardService service) : ControllerBase
             Answer = dto.Answer,
             Behavioural = dto.Behavioural,
             Foundation = dto.Foundation,
+            Scenario = dto.Scenario,
             Starred = dto.Starred,
             TechStack = dto.TechStack
         };

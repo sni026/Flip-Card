@@ -11,6 +11,7 @@ function Tags({ card }: { card: Card }) {
     <div className="fc-list-tags">
       {card.behavioural && <span className="tag tag-behavioural">Behavioural</span>}
       {card.foundation && <span className="tag tag-foundation">Foundation</span>}
+      {card.scenario && <span className="tag tag-scenario">Scenario</span>}
       {card.techStack && <span className="tag tag-stack">{card.techStack}</span>}
     </div>
   );

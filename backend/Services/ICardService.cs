@@ -9,6 +9,7 @@ public interface ICardService
         string? techStack,
         bool? behavioural,
         bool? foundation,
+        bool? scenario,
         bool? advanced,
         bool? starred
     );

@@ -16,6 +16,8 @@ public class Card
 
     public bool Foundation {get; set; }
 
+    public bool Scenario { get; set; }
+
     public bool Starred { get; set; }
 
     public string TechStack { get; set; } = string.Empty;

@@ -32,6 +32,9 @@ namespace FlipCardApi.Migrations
                     b.Property<bool>("Foundation")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Scenario")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("TEXT");

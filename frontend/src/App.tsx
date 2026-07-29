@@ -6,7 +6,7 @@ import FlipCard from './components/FlipCard';
 import CardList from './components/CardList';
 import type { Card, CardInput, Filters } from './types';
 
-const defaultFilters: Filters = { search: '', techStack: '', behavioural: false, foundation: false, advanced: false, starred: false };
+const defaultFilters: Filters = { search: '', techStack: '', behavioural: false, foundation: false, scenario: false, advanced: false, starred: false };
 
 export default function App() {
   const [cards, setCards] = useState<Card[]>([]);

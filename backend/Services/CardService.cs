@@ -38,6 +38,7 @@ public class CardService(AppDbContext db, IMemoryCache cache) : ICardService
         string? techStack,
         bool? behavioural,
         bool? foundation,
+        bool? scenario,
         bool? advanced,
         bool? starred)
     {
@@ -52,6 +53,7 @@ public class CardService(AppDbContext db, IMemoryCache cache) : ICardService
 
         if (behavioural == true) cards = cards.Where(c => c.Behavioural);
         if (foundation == true)  cards = cards.Where(c => c.Foundation);
+        if (scenario == true)    cards = cards.Where(c => c.Scenario);
         if (advanced == true)    cards = cards.Where(c => !c.Foundation);
         if (starred == true)     cards = cards.Where(c => c.Starred);
 
